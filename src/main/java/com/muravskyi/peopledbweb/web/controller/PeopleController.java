@@ -1,16 +1,30 @@
 package com.muravskyi.peopledbweb.web.controller;
 
+import com.muravskyi.peopledbweb.biz.model.Person;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
     @GetMapping
-    public String getPeople() {
-        return "people";
+    public String getPeople(Model model) {
+        List<Person> people = List.of(
+                new Person(10L, "Jake", "Snake", LocalDate.of(1950, 1, 1), new BigDecimal("70000")),
+                new Person(20L, "Sarah", "Snake", LocalDate.of(1960, 1, 1), new BigDecimal("15000")),
+                new Person(30L, "Jake", "Smith", LocalDate.of(1970, 1, 1), new BigDecimal("120000")),
+                new Person(40L, "Johnny", "Jackson", LocalDate.of(1980, 1, 1), new BigDecimal("25000")),
+                new Person(50L, "Bobby", "Kim", LocalDate.of(1990, 1, 1), new BigDecimal("35000"))
+        );
+        model.addAttribute("people", people);
+        return null;
     }
 
 }
