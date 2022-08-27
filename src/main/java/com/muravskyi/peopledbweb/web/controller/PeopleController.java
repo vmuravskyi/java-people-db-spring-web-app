@@ -18,10 +18,12 @@ public class PeopleController {
     public String getPeople(Model model) {
         List<Person> people = List.of(
                 new Person(10L, "Jake", "Snake", LocalDate.of(1950, 1, 1), new BigDecimal("70000")),
-                new Person(20L, "Sarah", "Snake", LocalDate.of(1960, 1, 1), new BigDecimal("15000")),
-                new Person(30L, "Jake", "Smith", LocalDate.of(1970, 1, 1), new BigDecimal("120000")),
-                new Person(40L, "Johnny", "Jackson", LocalDate.of(1980, 1, 1), new BigDecimal("25000")),
-                new Person(50L, "Bobby", "Kim", LocalDate.of(1990, 1, 1), new BigDecimal("35000"))
+                new Person(20L, "Sarah", "Snake", LocalDate.of(1960, 2, 1), new BigDecimal("15000")),
+                new Person(30L, "Jake", "Smith", LocalDate.of(1970, 3, 1), new BigDecimal("120000")),
+                new Person(40L, "Johnny", "Jackson", LocalDate.of(1980, 4, 1), new BigDecimal("25000")),
+                new Person(40L, "Jane", "Smith", LocalDate.of(1997, 5, 1), new BigDecimal("25000")),
+                new Person(40L, "Johnny", "Jackson", LocalDate.of(1980, 6, 1), new BigDecimal("25000")),
+                new Person(50L, "Bobby", "Kim", LocalDate.of(1990, 11, 1), new BigDecimal("35000"))
         );
         model.addAttribute("people", people);
         return null;
