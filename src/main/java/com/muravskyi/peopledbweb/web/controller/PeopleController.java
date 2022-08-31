@@ -2,6 +2,8 @@ package com.muravskyi.peopledbweb.web.controller;
 
 import com.muravskyi.peopledbweb.biz.model.Person;
 import com.muravskyi.peopledbweb.data.PersonRepository;
+import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/people")
@@ -45,6 +48,13 @@ public class PeopleController {
             return "redirect:people";
         }
         return "people";
+    }
+
+    @PostMapping(params = "delete=true")
+    public String deletePerson(@RequestParam Optional<List<Long>> selections) {
+        System.out.println(selections);
+        selections.ifPresent(ids -> personRepository.deleteAllById(selections.get()));
+        return "redirect:people";
     }
 
 }
