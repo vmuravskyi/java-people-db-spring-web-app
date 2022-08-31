@@ -2,8 +2,10 @@ package com.muravskyi.peopledbweb.web.controller;
 
 import com.muravskyi.peopledbweb.biz.model.Person;
 import com.muravskyi.peopledbweb.data.PersonRepository;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,10 +38,13 @@ public class PeopleController {
     }
 
     @PostMapping
-    public String savePerson(Person person) {
+    public String savePerson(@Valid Person person, Errors errors) {
         System.out.println(person);
-        personRepository.save(person);
-        return "redirect:people";
+        if (!errors.hasErrors()) {
+            personRepository.save(person);
+            return "redirect:people";
+        }
+        return "people";
     }
 
 }
