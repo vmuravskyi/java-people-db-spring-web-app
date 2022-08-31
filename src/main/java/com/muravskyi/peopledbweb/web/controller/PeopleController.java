@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,9 +53,17 @@ public class PeopleController {
 
     @PostMapping(params = "delete=true")
     public String deletePerson(@RequestParam Optional<List<Long>> selections) {
-        System.out.println(selections);
         selections.ifPresent(ids -> personRepository.deleteAllById(selections.get()));
         return "redirect:people";
+    }
+
+    @PostMapping(params = "edit=true")
+    public String editPerson(@RequestParam Long selections, Model model) {
+        if (selections != null) {
+            Optional<Person> foundPerson = personRepository.findById(selections);
+            model.addAttribute("person", foundPerson);
+        }
+        return "people";
     }
 
 }

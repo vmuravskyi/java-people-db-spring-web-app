@@ -49,6 +49,7 @@
       </tr>
       </tbody>
     </table>
+    <button type="submit" name="edit" value="true" class="btn btn-primary mb-5 me-2">Edit</button>
     <button type="submit" name="delete" value="true" class="btn btn-danger mb-5">Delete</button>
   </form>
 
@@ -89,6 +90,7 @@
         Please choose a salary.
       </div>
     </div>
+    <input type="hidden" th:field="*{id}">
     <button type="submit" class="btn btn-primary">Save Person</button>
   </form>
 
