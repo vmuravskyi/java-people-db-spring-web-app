@@ -32,7 +32,7 @@
         <th scope="row" th:text="${person.id}">1</th>
         <td th:text="${person.lastName}">Mark</td>
         <td th:text="${person.firstName}">Otto</td>
-        <td th:text="${{person.dob}}">@mdo</td>
+        <td th:text="${#temporals.format(person.dob, 'MMMM dd, yyyy')}">@mdo</td>
         <td th:text="${person.email}" class="d-sm-none d-md-table-cell">@mdo</td>
         <td th:text="${{person.salary}}">@mdo</td>
       </tr>
