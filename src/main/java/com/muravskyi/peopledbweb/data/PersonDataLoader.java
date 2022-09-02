@@ -21,13 +21,13 @@ public class PersonDataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (personRepository.count() == 0) {
             List<Person> people = List.of(
-                new Person(10L, "Pete", "Snake", LocalDate.of(1950, 1, 1), "dummy@gmail.com", new BigDecimal("70000")),
-                new Person(20L, "Jennifer", "Snake", LocalDate.of(1960, 2, 1), "dummy@gmail.com", new BigDecimal("15000")),
-                new Person(30L, "Mark", "Smith", LocalDate.of(1970, 3, 1), "dummy@gmail.com", new BigDecimal("120000")),
-                new Person(40L, "Vishnu", "McGuire", LocalDate.of(1980, 4, 1), "dummy@gmail.com", new BigDecimal("25000")),
-                new Person(40L, "Alice", "Smith", LocalDate.of(1997, 5, 1), "dummy@gmail.com", new BigDecimal("25000")),
-                new Person(40L, "Akira", "Jackson", LocalDate.of(1980, 6, 1), "dummy@gmail.com", new BigDecimal("25000")),
-                new Person(50L, "Bobby", "Kim", LocalDate.of(1990, 11, 1), "dummy@gmail.com", new BigDecimal("35000"))
+//                new Person(10L, "Pete", "Snake", LocalDate.of(1950, 1, 1), "dummy@gmail.com", new BigDecimal("70000")),
+//                new Person(20L, "Jennifer", "Snake", LocalDate.of(1960, 2, 1), "dummy@gmail.com", new BigDecimal("15000")),
+//                new Person(30L, "Mark", "Smith", LocalDate.of(1970, 3, 1), "dummy@gmail.com", new BigDecimal("120000")),
+//                new Person(40L, "Vishnu", "McGuire", LocalDate.of(1980, 4, 1), "dummy@gmail.com", new BigDecimal("25000")),
+//                new Person(40L, "Alice", "Smith", LocalDate.of(1997, 5, 1), "dummy@gmail.com", new BigDecimal("25000")),
+//                new Person(40L, "Akira", "Jackson", LocalDate.of(1980, 6, 1), "dummy@gmail.com", new BigDecimal("25000")),
+//                new Person(50L, "Bobby", "Kim", LocalDate.of(1990, 11, 1), "dummy@gmail.com", new BigDecimal("35000"))
             );
             personRepository.saveAll(people);
         }
