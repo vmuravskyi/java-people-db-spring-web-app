@@ -1,6 +1,7 @@
 package com.muravskyi.peopledbweb.web.controller;
 
 import com.muravskyi.peopledbweb.biz.model.Person;
+import com.muravskyi.peopledbweb.biz.service.PersonService;
 import com.muravskyi.peopledbweb.data.FileStorageRepository;
 import com.muravskyi.peopledbweb.data.PersonRepository;
 import com.muravskyi.peopledbweb.exception.StorageException;
@@ -10,7 +11,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties.Storage;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +33,14 @@ public class PeopleController {
     public static final String DISPOSITION = " attachment; filename=\"%s\"";
     private PersonRepository personRepository;
     private FileStorageRepository fileStorageRepository;
+    private PersonService personService;
 
     @Autowired
-    public PeopleController(PersonRepository personRepository, FileStorageRepository fileStorageRepository) {
+    public PeopleController(PersonRepository personRepository, FileStorageRepository fileStorageRepository,
+        PersonService personService) {
         this.personRepository = personRepository;
         this.fileStorageRepository = fileStorageRepository;
+        this.personService = personService;
     }
 
     @ModelAttribute("people")
@@ -63,7 +66,8 @@ public class PeopleController {
     }
 
     @PostMapping
-    public String savePerson(Model model, @Valid Person person, Errors errors, @RequestParam("photoFilename") MultipartFile photoFile)
+    public String savePerson(Model model, @Valid Person person, Errors errors,
+        @RequestParam("photoFilename") MultipartFile photoFile)
         throws IOException {
         log.info(person);
         log.info("Filename:" + photoFile.getOriginalFilename());
@@ -73,8 +77,7 @@ public class PeopleController {
             return "people";
         }
         try {
-            fileStorageRepository.save(photoFile.getOriginalFilename(), photoFile.getInputStream());
-            personRepository.save(person);
+            personService.save(person, photoFile.getInputStream());
             return "redirect:people";
         } catch (StorageException e) {
             model.addAttribute("errorMsg", "System is currently unable to accept photo files at this time");
