@@ -4,12 +4,13 @@ import com.muravskyi.peopledbweb.biz.model.Person;
 import com.muravskyi.peopledbweb.data.FileStorageRepository;
 import com.muravskyi.peopledbweb.data.PersonRepository;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +63,23 @@ public class PersonService {
 
     public void delete(Person entity) {
         personRepository.delete(entity);
+    }
+
+    @Query(nativeQuery = true, value = "select photo_filename from person where id in :ids")
+    public Set<String> findFilenamesByIds(Iterable<Long> ids) {
+        return personRepository.findFilenamesByIds(ids);
+    }
+
+    public Iterable<Person> findAll(Sort sort) {
+        return personRepository.findAll(sort);
+    }
+
+    public Page<Person> findAll(Pageable pageable) {
+        return personRepository.findAll(pageable);
+    }
+
+    public <S extends Person> S save(S entity) {
+        return personRepository.save(entity);
     }
 
     public void deleteAllById(Iterable<Long> ids) {
