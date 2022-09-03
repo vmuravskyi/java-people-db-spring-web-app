@@ -4,7 +4,11 @@ import com.muravskyi.peopledbweb.biz.model.Person;
 import com.muravskyi.peopledbweb.data.FileStorageRepository;
 import com.muravskyi.peopledbweb.data.PersonRepository;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,8 +64,15 @@ public class PersonService {
         personRepository.delete(entity);
     }
 
-    public void deleteAllById(Iterable<? extends Long> longs) {
-        personRepository.deleteAllById(longs);
+    public void deleteAllById(Iterable<Long> ids) {
+//        var allById = personRepository.findAllById(ids);
+//        var peopleStream = StreamSupport.stream(allById.spliterator(), false);
+//        var fileNames = peopleStream
+//            .map(Person::getPhotoFilename)
+//            .collect(Collectors.toCollection(HashSet::new));
+        Set<String> filenamesByIds = personRepository.findFilenamesByIds(ids);
+        personRepository.deleteAllById(ids);
+        fileStorageRepository.deleteAllByName(filenamesByIds);
     }
 
     public void deleteAll(Iterable<? extends Person> entities) {

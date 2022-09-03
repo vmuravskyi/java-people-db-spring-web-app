@@ -87,7 +87,8 @@ public class PeopleController {
 
     @PostMapping(params = "delete=true")
     public String deletePerson(@RequestParam Optional<List<Long>> selections) {
-        selections.ifPresent(ids -> personRepository.deleteAllById(selections.get()));
+//        selections.ifPresent(ids -> personRepository.deleteAllById(selections.get()));
+        selections.ifPresent(ids -> personService.deleteAllById(ids));
         return "redirect:people";
     }
 

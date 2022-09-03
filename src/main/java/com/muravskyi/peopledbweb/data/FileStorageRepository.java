@@ -35,4 +35,15 @@ public class FileStorageRepository {
         }
     }
 
+    public void deleteAllByName(Iterable<String> fileNames) {
+        try {
+            for (String fileName : fileNames) {
+                Path filePath = Path.of(storageFolder).resolve(fileName).normalize();
+                Files.deleteIfExists(filePath);
+            }
+        } catch (IOException e) {
+            throw new StorageException(e);
+        }
+    }
+
 }
