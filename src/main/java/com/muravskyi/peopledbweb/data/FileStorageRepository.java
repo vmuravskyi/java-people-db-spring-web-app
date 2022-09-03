@@ -1,5 +1,6 @@
 package com.muravskyi.peopledbweb.data;
 
+import com.muravskyi.peopledbweb.exception.StorageException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,6 +22,7 @@ public class FileStorageRepository {
             Files.copy(inputStream, filePath);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new StorageException(e);
         }
     }
 
@@ -29,9 +31,8 @@ public class FileStorageRepository {
             Path filePath = Path.of(storageFolder).resolve(fileName).normalize();
             return new UrlResource(filePath.toUri());
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new StorageException(e);
         }
-        return null;
     }
 
 }
