@@ -114,7 +114,7 @@ public class PersonService {
             bufferedReader.lines()
                 .skip(1)
                 .map(Person::parse)
-                .limit(20)
+                .limit(48)
                 .forEach(personRepository::save);
         } catch (IOException e) {
             throw new RuntimeException(e);
