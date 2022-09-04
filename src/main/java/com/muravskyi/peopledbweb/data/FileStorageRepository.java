@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -35,9 +38,10 @@ public class FileStorageRepository {
         }
     }
 
-    public void deleteAllByName(Iterable<String> fileNames) {
+    public void deleteAllByName(Collection<String> fileNames) {
         try {
-            for (String fileName : fileNames) {
+            var filtered = fileNames.stream().filter(Objects::nonNull).collect(Collectors.toSet());
+            for (String fileName : filtered) {
                 Path filePath = Path.of(storageFolder).resolve(fileName).normalize();
                 Files.deleteIfExists(filePath);
             }
