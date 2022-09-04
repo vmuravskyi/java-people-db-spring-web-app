@@ -2,6 +2,10 @@ package com.muravskyi.peopledbweb.biz.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,5 +47,13 @@ public class Person {
     private BigDecimal salary;
 
     private String photoFilename;
+
+    public static Person parse(String csvLine) {
+        var fields = csvLine.split(",");
+        var trimmed = Arrays.stream(fields).map(String::trim).collect(Collectors.toCollection(ArrayList::new));
+        var dob = LocalDate.parse(trimmed.get(10), DateTimeFormatter.ofPattern("M/d/yyyy"));
+        return new Person(null, trimmed.get(2), trimmed.get(4), dob, trimmed.get(6), new BigDecimal(trimmed.get(25)),
+            null);
+    }
 
 }

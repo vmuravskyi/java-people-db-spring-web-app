@@ -3,9 +3,13 @@ package com.muravskyi.peopledbweb.biz.service;
 import com.muravskyi.peopledbweb.biz.model.Person;
 import com.muravskyi.peopledbweb.data.FileStorageRepository;
 import com.muravskyi.peopledbweb.data.PersonRepository;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.Set;
+import java.util.zip.ZipInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -99,6 +103,22 @@ public class PersonService {
 
     public void deleteAll() {
         personRepository.deleteAll();
+    }
+
+    public void importCSV(InputStream csvFileInputStream) {
+        try {
+            var zipInputStream = new ZipInputStream(csvFileInputStream);
+            zipInputStream.getNextEntry();
+            var inputStreamReader = new InputStreamReader(zipInputStream);
+            var bufferedReader = new BufferedReader(inputStreamReader);
+            bufferedReader.lines()
+                .skip(1)
+                .map(Person::parse)
+                .limit(20)
+                .forEach(personRepository::save);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
