@@ -1,0 +1,1 @@
+heroku config:set STORAGE_FOLDER="/tmp"
